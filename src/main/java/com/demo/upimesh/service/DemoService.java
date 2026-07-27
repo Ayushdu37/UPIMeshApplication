@@ -32,14 +32,18 @@ public class DemoService {
     @Autowired private ServerKeyHolder serverKey;
 
     @PostConstruct
-    public void seedAccounts() throws Exception {
-        if (accounts.count() == 0) {
-            String defaultPinHash = sha256Hex("1234");
-            accounts.save(new Account("alice@demo", "Alice",   new BigDecimal("5000.00"), defaultPinHash));
-            accounts.save(new Account("bob@demo",   "Bob",     new BigDecimal("1000.00"), defaultPinHash));
-            accounts.save(new Account("carol@demo", "Carol",   new BigDecimal("2500.00"), defaultPinHash));
-            accounts.save(new Account("dave@demo",  "Dave",    new BigDecimal("500.00"),  defaultPinHash));
-            log.info("Seeded 4 demo accounts with PIN hash (default PIN: 1234)");
+    public void seedAccounts() {
+        try {
+            if (accounts.count() == 0) {
+                String defaultPinHash = sha256Hex("1234");
+                accounts.save(new Account("alice@demo", "Alice",   new BigDecimal("5000.00"), defaultPinHash));
+                accounts.save(new Account("bob@demo",   "Bob",     new BigDecimal("1000.00"), defaultPinHash));
+                accounts.save(new Account("carol@demo", "Carol",   new BigDecimal("2500.00"), defaultPinHash));
+                accounts.save(new Account("dave@demo",  "Dave",    new BigDecimal("500.00"),  defaultPinHash));
+                log.info("Seeded 4 demo accounts with PIN hash (default PIN: 1234)");
+            }
+        } catch (Exception e) {
+            log.warn("Account seeding skipped: {}", e.getMessage());
         }
     }
 
