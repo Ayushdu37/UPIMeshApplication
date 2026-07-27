@@ -11,15 +11,14 @@ import java.time.Instant;
  * as a defense-in-depth fallback if the Redis-style cache layer ever fails.
  */
 @Entity
-@Table(name = "transactions",
-        indexes = { @Index(name = "idx_packet_hash", columnList = "packetHash", unique = true) })
+@Table(name = "transactions")
 public class Transaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true, length = 64)
+    @Column(name = "packet_hash", nullable = false, unique = true, length = 64)
     private String packetHash; // SHA-256 hex of the encrypted packet
 
     @Column(nullable = false)
